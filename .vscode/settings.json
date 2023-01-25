@@ -27,5 +27,8 @@
     "peacock.remoteColor": "#40e667",
     "yaml.schemas": {
         "https://json.schemastore.org/github-workflow.json": "file:///home/pike/Development/koire.github.io/.git/workflows/deploy.yml"
-    }
+    },
+    "cSpell.words": [
+        "astro"
+    ]
 }
