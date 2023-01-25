@@ -1,13 +1,11 @@
 name: Deploy to GitHub Pages
+
 on:
   workflow_run:
     workflows:
       - Playwright Tests
     types:
       - completed
-    branches: [ main ]
-  workflow_dispatch: "Deploy to Pages"
-
 permissions:
   contents: read
   pages: write
