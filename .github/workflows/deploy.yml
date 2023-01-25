@@ -1,14 +1,10 @@
 name: Deploy to GitHub Pages
-
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
-  push:
+  workflow_run:
+    workflows: [test]
     branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch: "Deploy to Pages"
-  
-# Allow this job to clone the repo and create a page deployment
+
 permissions:
   contents: read
   pages: write
@@ -16,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    needs: test
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
