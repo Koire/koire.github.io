@@ -11,14 +11,16 @@
     "astro": "astro",
     "testE2E": "pnpm run build && playwright test"
   },
-  "dependencies": {
-    "astro-netlify-cms": "^0.5.3"
-  },
   "devDependencies": {
     "@playwright/test": "^1.29.2",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "astro": "^2.0.0",
     "eslint": "^8.33.0"
+  },
+  "dependencies": {
+    "@sanity/client": "^4.0.1",
+    "@sanity/types": "^3.2.6",
+    "astro-sanity": "^1.1.3"
   }
 }

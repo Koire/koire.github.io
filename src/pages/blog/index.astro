@@ -1,0 +1,10 @@
+---
+import { getAllPosts } from "../../lib/sanity";
+const allPostData = await getAllPosts()
+---
+
+<div>
+    {
+        allPostData.map(post => <div>{post.title}</div>)
+    }
+</div>
