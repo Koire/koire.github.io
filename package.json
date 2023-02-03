@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "testE2E": "npm run build && playwright test"
+    "testE2E": "pnpm run build && playwright test"
   },
   "dependencies": {
     "astro-netlify-cms": "^0.5.3"
