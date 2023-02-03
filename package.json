@@ -12,9 +12,10 @@
     "testE2E": "npm run build && playwright test"
   },
   "dependencies": {
-    "astro": "^2.0.0"
+    "astro-netlify-cms": "^0.5.3"
   },
   "devDependencies": {
-    "@playwright/test": "^1.29.2"
+    "@playwright/test": "^1.29.2",
+    "astro": "^2.0.0"
   }
 }
