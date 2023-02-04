@@ -12,7 +12,7 @@
     "testE2E": "pnpm run build && playwright test"
   },
   "devDependencies": {
-    "@playwright/test": "^1.29.2",
+    "@playwright/test": "1.29.2",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "astro": "^2.0.0",
