@@ -28,22 +28,6 @@ jobs:
           ${{ runner.os }}-pnpm-store-
     - name: Install dependencies
       run: pnpm install
-    - name: Get installed Playwright version
-      id: playwright-version
-      run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
-    - name: Cache playwright binaries
-      uses: actions/cache@v3
-      id: playwright-cache
-      with:
-        path: |
-          ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-    - name: Install Playwright Browsers
-      run: pnpm dlx playwright install --with-deps
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
-    - name: Instal Playwright deps
-      run: pnpm dlx playwright install-deps
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
     - name: Run Playwright tests
       run: pnpm dlx playwright test
     - uses: actions/upload-artifact@v3
