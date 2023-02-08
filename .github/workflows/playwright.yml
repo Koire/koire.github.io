@@ -29,14 +29,13 @@ jobs:
     - name: Install dependencies
       run: pnpm install
   
-    - name: (non-windows) Set Playwright path and Get playwright version
+    - name: Set Playwright path and Get playwright version
       run: |
         echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/playwright-bin" >> $GITHUB_ENV
         PLAYWRIGHT_VERSION="$(pnpm ls --depth 0 --json -D | jq --raw-output '.[0].devDependencies["@playwright/test"].version')"
         echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV    
     
     - name: Cache Playwright's binary
-      if: steps.changed-files.outputs.only_changed != 'true'
       uses: actions/cache@v3
       with:
         key: ${{ runner.os }}-playwright-bin-v1-${{ env.PLAYWRIGHT_VERSION }}
@@ -45,7 +44,6 @@ jobs:
           ${{ runner.os }}-playwright-bin-v1-
 
     - name: Install Playwright
-      # does not need to explicitly set chromium after https://github.com/microsoft/playwright/issues/14862 is solved
       run: pnpm playwright install --with-deps
     - name: Build
       run: pnpm run build
