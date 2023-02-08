@@ -32,7 +32,7 @@ jobs:
     - name: (non-windows) Set Playwright path and Get playwright version
       run: |
         echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/playwright-bin" >> $GITHUB_ENV
-        PLAYWRIGHT_VERSION="$(pnpm ls --depth 0 --json -D | jq --raw-output '.[0].devDependencies["@playwright/test"].version)"
+        PLAYWRIGHT_VERSION="$(pnpm ls --depth 0 --json -D | jq --raw-output '.[0].devDependencies["@playwright/test"].version')"
         echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV    
     
     - name: Cache Playwright's binary
