@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "testE2E": "pnpm run build && playwright test"
+    "testE2E": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "1.30.0",

@@ -7,18 +7,50 @@ on:
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy: 
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [16]
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2.2.4
+    
+    - name: Set node version to ${{ matrix.node_version }}
+      uses: actions/setup-node@v3
       with:
-        node-version: 16
+        node-version: ${{ matrix.node_version }}
+        cache: "pnpm"
+
     - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: pnpm install
+    
+    - name: (non-windows) Set Playwright path and Get playwright version
+      run: |
+        echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/playwright-bin" >> $GITHUB_ENV
+        PLAYWRIGHT_VERSION="$(pnpm ls --depth 0 --json -w playwright-chromium | jq --raw-output '.[0].devDependencies["playwright-chromium"].version')"
+        echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV    
+    
+    - name: Cache Playwright's binary
+      if: steps.changed-files.outputs.only_changed != 'true'
+      uses: actions/cache@v3
+      with:
+        key: ${{ runner.os }}-playwright-bin-v1-${{ env.PLAYWRIGHT_VERSION }}
+        path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-bin-v1-
+
+    - name: Install Playwright
+      # does not need to explicitly set chromium after https://github.com/microsoft/playwright/issues/14862 is solved
+      run: pnpm playwright install chromium
+    - name: Build
+      run: pnpm run build
+
     - name: Run Playwright tests
-      run: npx playwright test
+      run: pnpm run testE2E
+      
     - uses: actions/upload-artifact@v3
       if: always()
       with:
