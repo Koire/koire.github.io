@@ -17,6 +17,8 @@ jobs:
     
     - name: Install pnpm
       uses: pnpm/action-setup@v2.2.4
+      with: 
+        version: 7
     
     - name: Set node version to ${{ matrix.node_version }}
       uses: actions/setup-node@v3
@@ -26,7 +28,7 @@ jobs:
 
     - name: Install dependencies
       run: pnpm install
-    
+  
     - name: (non-windows) Set Playwright path and Get playwright version
       run: |
         echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/playwright-bin" >> $GITHUB_ENV
@@ -44,13 +46,13 @@ jobs:
 
     - name: Install Playwright
       # does not need to explicitly set chromium after https://github.com/microsoft/playwright/issues/14862 is solved
-      run: pnpm playwright install chromium
+      run: pnpm playwright install --with-deps
     - name: Build
       run: pnpm run build
 
     - name: Run Playwright tests
       run: pnpm run testE2E
-      
+
     - uses: actions/upload-artifact@v3
       if: always()
       with:
