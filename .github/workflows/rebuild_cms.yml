@@ -1,18 +1,25 @@
 name: rebuild_cms
 
-env:
-  rebuild: false
-
 on:
   repository_dispatch:
     types: [rebuild_site]
-    env:
-      rebuild: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: echo something
-        run: echo "hello" ${{ rebuild }}
-      
+      - name: Checkout your repository using git
+        uses: actions/checkout@v3
+      - name: Install, build, and upload your site
+        uses: withastro/action@v0
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
