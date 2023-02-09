@@ -9,4 +9,4 @@ slug: hello-world
 
 ## This is a md blog post
 
-I'm just testing this out.
+I just testing this out.
