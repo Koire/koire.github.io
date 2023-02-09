@@ -9,9 +9,8 @@ const markdownPosts = await getCollection("blog")
     <div>
         <div>
             <p>Markdown Posts</p>
-            {markdownPosts.map((post) => <div>{post.title}</div>)}
+            {markdownPosts.map((post) => <div><a href=`blog/${post.data.slug}`>{post.data.title}</a></div>)}
         </div>
-        
         {allPostData.map(post => <div>{post.title}</div>)}
     </div>
 </Layout>
