@@ -1,0 +1,11 @@
+name: rebuild_cms
+on:
+  repository_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo something
+        run: echo "hello"
+      
