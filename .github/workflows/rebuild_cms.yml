@@ -1,11 +1,18 @@
 name: rebuild_cms
+
+env:
+  rebuild: false
+
 on:
-  repository_dispatch
+  repository_dispatch:
+    types: [rebuild_site]
+    env:
+      rebuild: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: echo something
-        run: echo ${{ github.event.client_payload }}
+        run: echo "hello" ${{ rebuild }}
       
