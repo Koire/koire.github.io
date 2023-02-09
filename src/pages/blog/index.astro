@@ -1,10 +1,17 @@
 ---
 import { getAllPosts } from "../../lib/sanity";
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro"
 const allPostData = await getAllPosts()
+const markdownPosts = await getCollection("blog")
 ---
-
-<div>
-    {
-        allPostData.map(post => <div>{post.title}</div>)
-    }
-</div>
+<Layout title="blog posts">
+    <div>
+        <div>
+            <p>Markdown Posts</p>
+            {markdownPosts.map((post) => <div>{post.title}</div>)}
+        </div>
+        
+        {allPostData.map(post => <div>{post.title}</div>)}
+    </div>
+</Layout>

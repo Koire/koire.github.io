@@ -12,7 +12,7 @@ specifiers:
 
 dependencies:
   '@sanity/client': 4.0.1
-  '@sanity/types': 3.2.6
+  '@sanity/types': 3.3.1
   astro-sanity: 1.1.3
 
 devDependencies:
@@ -812,8 +812,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /@sanity/types/3.2.6:
-    resolution: {integrity: sha512-B4rES+XWpFqDSqpqNiQgTebuSRZhbQN6Zz1KWLsat7XhUe0qjABJG1j14Fp+tfLG4SiPlYRWh3tbuS+/Z/srTQ==}
+  /@sanity/types/3.3.1:
+    resolution: {integrity: sha512-ThbGGtPbiDM0xmD2XZejO07lkYj/5ZFJ8KgFuvNoRAbqPlY52LoZNsxJm1T/IDZcetX+/TwmOLCKxeu9767QJw==}
     dependencies:
       '@sanity/client': 4.0.1
       '@types/react': 18.0.27
