@@ -18,7 +18,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Install, build, and upload your site
         uses: withastro/action@v0
-
+env:
+  CONTENTFUL_DELIVERY_TOKEN: ${{ vars.CONTENTFUL_DELIVERY_TOKEN }}
+  CONTENTFUL_PREVIEW_TOKEN: ${{ vars.CONTENTFUL_PREVIEW_TOKEN }}
+  CONTENTFUL_SPACE_ID: ${{ vars.CONTENTFUL_SPACE_ID }}
+  
   deploy:
     needs: build
     runs-on: ubuntu-latest
