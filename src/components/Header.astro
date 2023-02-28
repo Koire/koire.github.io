@@ -1,7 +1,36 @@
+---
+
+---
+
 <header class="site-header">
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/blog">Blog</a>
-    </nav>
+	<style lang="less">
+		.holder {
+			position: relative;
+		}
+		.nav {
+			align-items: center;
+			contain: layout;
+			display: grid;
+			gap: 1rem;
+			position: fixed;
+			top: 0px;
+			justify-content: end;
+			grid-template-columns: repeat(4, auto);
+			> a:first-of-type {
+				margin-inline-end: auto;
+				width: 200px;
+			}
+			> a {
+				text-decoration: none;
+			}
+		}
+	</style>
+	<div class="holder">
+		<nav class="nav">
+			<a href="/">Home</a>
+			<a href="/about">About</a>
+			<a href="/blog">Blog</a>
+			<a href="/demos">Demos</a>
+		</nav>
+	</div>
 </header>
