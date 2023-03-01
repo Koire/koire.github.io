@@ -5,9 +5,9 @@ on:
   pull_request:
     branches: [ main ]
 env:
-  CONTENTFUL_DELIVERY_TOKEN: "This is a test token"
-  CONTENTFUL_PREVIEW_TOKEN: "This is a preview token"
-  CONTENTFUL_SPACE_ID: "This is a space id"
+  CONTENTFUL_DELIVERY_TOKEN: '${{ secrets.CONTENTFUL_DELIVERY_TOKEN }}'
+  CONTENTFUL_PREVIEW_TOKEN: '${{ secrets.CONTENTFUL_PREVIEW_TOKEN }}'
+  CONTENTFUL_SPACE_ID: '${{ secrets.CONTENTFUL_SPACE_ID }}'
   DEV: "production"
   
 jobs:
@@ -55,10 +55,7 @@ jobs:
     - name: Install Playwright
       run: pnpm playwright install --with-deps
     - name: Build
-      run: |
-        CONTENTFUL_DELIVERY_TOKEN=${{ vars.CONTENTFUL_DELIVERY_TOKEN }}
-        CONTENTFUL_PREVIEW_TOKEN=${{ vars.CONTENTFUL_DELIVERY_TOKEN }}
-        pnpm run build
+      run: pnpm run build
 
     - name: Run Playwright tests
       run: pnpm run testE2E
