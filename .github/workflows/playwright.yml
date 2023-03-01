@@ -8,7 +8,8 @@ env:
   CONTENTFUL_DELIVERY_TOKEN: ${{ vars.CONTENTFUL_DELIVERY_TOKEN }}
   CONTENTFUL_PREVIEW_TOKEN: ${{ vars.CONTENTFUL_PREVIEW_TOKEN }}
   CONTENTFUL_SPACE_ID: ${{ vars.CONTENTFUL_SPACE_ID }}
-
+  DEV: "production"
+  
 jobs:
   test:
     timeout-minutes: 60
@@ -51,7 +52,10 @@ jobs:
     - name: Install Playwright
       run: pnpm playwright install --with-deps
     - name: Build
-      run: pnpm run build
+      run: |
+        CONTENTFUL_DELIVERY_TOKEN=test-token
+        CONTENTFUL_PREVIEW_TOKEN=test-preview-token
+        pnpm run build
 
     - name: Run Playwright tests
       run: pnpm run testE2E
