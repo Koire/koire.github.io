@@ -53,8 +53,8 @@ jobs:
       run: pnpm playwright install --with-deps
     - name: Build
       run: |
-        CONTENTFUL_DELIVERY_TOKEN=test-token
-        CONTENTFUL_PREVIEW_TOKEN=test-preview-token
+        CONTENTFUL_DELIVERY_TOKEN=env.CONTENTFUL_DELIVERY_TOKEN
+        CONTENTFUL_PREVIEW_TOKEN=env.CONTENTFUL_PREVIEW_TOKEN
         pnpm run build
 
     - name: Run Playwright tests
