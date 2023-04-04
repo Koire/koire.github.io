@@ -1,7 +1,7 @@
 ---
-title: "Hello World test markdown"
+title: "How to use Obsidian to edit markdown on WSL"
 pubDate: 2023-02-09
-description: "hello world"
+description: "obsidian on wsl"
 author: "Pike"
 tags: ["blog"]
 slug: obsidian-to-wsl
