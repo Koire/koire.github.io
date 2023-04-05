@@ -1,20 +1,20 @@
 ---
-import { getEntryBySlug } from "astro:content"
+import { getCollection } from "astro:content"
 import BasePage from "../../layouts/BasePage.astro"
 import Content from "../../layouts/Content.astro"
 
-const { slug } = Astro.params
-if (slug == undefined) {
-	return Astro.redirect("/404")
+export async function getStaticPaths() {
+	const blogEntries = await getCollection("blog")
+	return blogEntries.map(entry => ({
+		params: { slug: entry.slug }, props: { entry },
+	}))
 }
-const entry = await getEntryBySlug("blog", slug)
-if (entry == undefined) {
-	return Astro.redirect("/404")
-}
-const { Content: Generated } = await entry.render();
+// 2. When it's time to render, you can get the entry directly from the prop
+const { entry } = Astro.props
+const { Content:Generated } = await entry.render();
 ---
-<BasePage title="blog posts">
-	<Content header={slug}>
+<BasePage title={entry.data.title}>
+	<Content header={entry.data.title}>
 		<Generated />
 	</Content>
 </BasePage>

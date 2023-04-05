@@ -18,6 +18,5 @@ export default defineConfig({
     apiVersion: "v2021-10-21",
     useCdn: true
   }), image(), tailwind()],
-  output: "server"
   
 });
