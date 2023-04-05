@@ -1,0 +1,19 @@
+---
+import { getEntryBySlug } from "astro:content"
+import BasePage from "../../layouts/BasePage.astro"
+import ContentLayout from "../../layouts/Content.astro"
+const { slug } = Astro.params
+if (slug == undefined) {
+	return Astro.redirect("/404")
+}
+const entry = await getEntryBySlug("recipes", slug)
+if (entry == undefined) {
+	return Astro.redirect("/404")
+}
+const { Content } = await entry.render();
+---
+<BasePage title="blog posts">
+	<ContentLayout header="Recipe">
+		<Content />
+	</ContentLayout>
+</BasePage>

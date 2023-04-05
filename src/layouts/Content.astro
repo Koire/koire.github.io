@@ -1,0 +1,12 @@
+---
+export interface Props {
+    header: string
+}
+const {header} = Astro.props
+---
+<main class="grid grid-rows-layout justify-content-center px-20 gap-y-5">
+	<h1 class="justify-self-center">{header}</h1>
+	<div>
+		<slot />
+	</div>
+</main>

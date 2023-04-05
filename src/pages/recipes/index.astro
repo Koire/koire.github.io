@@ -1,0 +1,14 @@
+---
+import Content from "../../layouts/Content.astro"
+import BasePage from "../../layouts/BasePage.astro"
+import { getCollection } from "astro:content"
+
+const recipes=await getCollection("recipes")
+---
+<BasePage title="Demos">
+	<Content header="Recipes">
+		<ul class="grid justify-center">
+			{recipes.map((post) => <li><a href=`/recipes/${post.data.slug}`>{post.data.title}</a></li>)}
+		</ul>
+	</Content>
+</BasePage>
