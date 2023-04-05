@@ -1,7 +1,18 @@
-html {
-    font-size: 16px;
-    line-height: 1.4em;
-    padding-left: 10px;
-    padding-right: 10px;
-}
+@tailwind base;
+@tailwind components;
 
+@layer base {
+    html {
+        font-size: 16px;
+        line-height: 1.4em;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    h1 {
+        @apply text-3xl;
+    }
+    h2 {
+        @apply text-2xl;
+    }
+}
+@tailwind utilities;

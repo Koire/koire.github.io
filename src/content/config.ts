@@ -9,6 +9,17 @@ const blogCollection = defineCollection({
 	})
 })
 
+const recipeCollection = defineCollection({
+	schema: z.object({
+		title: z.string(),
+		tags: z.array(z.string()),
+		slug: z.string(),
+		rating: z.number(),
+		description: z.string()
+	})
+})
+
 export const collection = {
-	"blog": blogCollection
+	"recipes": recipeCollection,
+	"blog": blogCollection,
 }

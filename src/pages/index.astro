@@ -1,26 +1,10 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import { Image } from "@astrojs/image/components"
-import deathsShadows from "../images/deathsShadows-glow.png"
-
+import BasePage from "../layouts/BasePage.astro"
+import Content from "../layouts/Content.astro"
 ---
 
-<Layout title="Koire's home">
-	<style lang="less">
-		.main-content {
-			display: grid;
-			justify-items: center;
-			grid-template-rows: 10% auto;
-			height: 100vh;
-			width: 80%;
-		}
-	</style>
-	<main class="main-content">
-		<h1> Welcome to Paikawa</h1>
-		<div>
-			This is a little site to just try out astro and maybe write a blog
-			<br />
-			<Image src={deathsShadows} height={150} alt="deathsShadows" />
-		</div>
-	</main>
-</Layout>
+<BasePage title="Koire's home">
+	<Content header=" Welcome to Paikawa">
+		<p>This is a little site to just try out astro and maybe write a blog</p>
+	</Content>
+</BasePage>

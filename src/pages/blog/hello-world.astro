@@ -1,12 +1,12 @@
 ---
 import { getEntryBySlug } from "astro:content"
-import Layout from "../../layouts/Layout.astro"
+import LayBasePageout from "../../layouts/BasePage.astro"
 
 const entry = await getEntryBySlug("blog", "hello-world")
 
 const { Content } = await entry.render();
 ---
-<Layout title="blog posts">
+<BasePage title="blog posts">
 	<h1>This is Hello World!</h1>
 	<Content />
-</Layout>
+</BasePage>
