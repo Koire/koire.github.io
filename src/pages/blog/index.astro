@@ -1,17 +1,16 @@
 ---
-import { getAllPosts } from "../../lib/sanity"
-import { getCollection } from "astro:content"
+
 import BasePage from "../../layouts/BasePage.astro"
 import Content from "../../layouts/Content.astro"
+import { getPosts } from "../../lib/blogPosts";
 
-const allPostData = await getAllPosts()
-const markdownPosts = await getCollection("blog")
+
+const posts = await getPosts()
 ---
 <BasePage title="blog posts">
 	<Content header="Recent Posts">
 		<div class="grid justify-center">
-			{markdownPosts.map((post) => <div><a href=`/blog/${post.data.slug}`>{post.data.title}</a></div>)}
-			{allPostData.map(post => <div>{post.title}</div>)}
+			{posts.map((post) => <div><a href=`/blog/${post.data.slug}`>{post.data.title}</a></div>)}
 		</div>
 	</Content>
 </BasePage>

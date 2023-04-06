@@ -1,25 +1,14 @@
 ---
-import { contentfulClient } from "../../lib/contentful";
-import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-import type { Document } from "@contentful/rich-text-types";
+import { getContentfulPosts } from "../../lib/contentful"
 
-interface BlogPost {
-    title: string;
-    date: string;
-    description: string;
-    content: Document;
-    slug: string;
-}
-
-const entries = await contentfulClient.getEntries<BlogPost>({
-  content_type: "blogPost",
-});
+const entries = await getContentfulPosts("blogPost")
+entries.map(console.log)
 ---
 <body>
-  {entries.items.map((item) => (
-    <section>
-      <h2>{item.fields.title}</h2>
-      <article set:html={documentToHtmlString(item.fields.content)}></article>
-    </section>
-  ))}
+	{entries.map((item) => (
+		<di>
+			<h2>{item.data.published} - {item.data.title}</h2>
+			<article set:html={item.content}></article>
+		</di>
+	))}
 </body>
