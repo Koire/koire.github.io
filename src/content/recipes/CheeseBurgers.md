@@ -6,4 +6,4 @@ tags: ["recipes", "main-dish", "beef"]
 slug: "cheese-burger"
 ---
 
-![cheeseburger](../../assets/images/PXL_20230404_100357601.jpg)
+![cheeseburger](/images/PXL_20230404_100357601.jpg)
