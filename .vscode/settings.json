@@ -22,7 +22,10 @@
         "titleBar.activeForeground": "#15202b",
         "titleBar.border": "#40e667",
         "titleBar.inactiveBackground": "#40e66799",
-        "titleBar.inactiveForeground": "#15202b99"
+        "titleBar.inactiveForeground": "#15202b99",
+        "statusBar.debuggingBackground": "#e640bf",
+        "statusBar.debuggingBorder": "#e640bf",
+        "statusBar.debuggingForeground": "#15202b"
     },
     "peacock.remoteColor": "#40e667",
     "yaml.schemas": {
