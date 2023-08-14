@@ -27,7 +27,7 @@ export default defineConfig({
 		dataset: "production",
 		apiVersion: "v2021-10-21",
 		useCdn: true
-	}), image(), tailwind()],
+	}), tailwind()],
 	markdown: {
 		remarkPlugins: [
 			[remarkCopyLinkedFiles, {

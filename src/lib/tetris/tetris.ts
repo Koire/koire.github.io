@@ -1,5 +1,5 @@
-import { generatePiece, dirs, getRandomPiece } from "./pieces"
-import {columns, rows, gridSize } from "./constants"
+import { generatePiece, dirs, getRandomPiece } from "./pieces.ts"
+import {columns, rows, gridSize } from "./constants.ts"
 
 const getContext = (boardId: string) => {
 	const canvas = <HTMLCanvasElement> document.getElementById(boardId)

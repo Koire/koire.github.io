@@ -4,7 +4,7 @@ import BasePage from "../../layouts/BasePage.astro";
 
 <BasePage title="Tetris">
   <audio controls>
-    <source src="../../assets/audio/Tetris.ogg" type="audio/ogg"/>
+    <source src="/audio/Tetris.ogg" type="audio/ogg"/>
   </audio>
     <div class="container">
         <canvas id="board" class="board"></canvas>
@@ -42,8 +42,7 @@ import BasePage from "../../layouts/BasePage.astro";
   cursor: pointer;
 }
 </style>
-<script>
-import { setup } from "../../lib/tetris/tetris";
-setup("board")
-
+<script >
+    import {setup} from "../../lib/tetris/tetris.ts"
+    setup("board")
 </script>
