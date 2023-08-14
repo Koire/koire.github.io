@@ -1,0 +1,50 @@
+---
+import BasePage from "../../layouts/BasePage.astro";
+
+---
+
+<BasePage title="Tetris">
+  <audio controls>
+    <source src="../../assets/audio/Tetris.ogg" type="audio/ogg"/>
+  </audio>
+    <div class="container">
+        <canvas id="board" class="board"></canvas>
+        <div class="information">
+            <h1>Tetris</h1>
+            <p>Score: <span>0</span></p>
+            <p>Lines: <span>0</span></p>
+            <p>Level: <span>0</span></p>
+            <canvas id="next" class="next"></canvas>
+            <button onclick="play()" class="play-button">Play</button>
+        </div>
+    </div>
+</BasePage>
+<style>
+.container {
+  display: grid;
+  grid-template-columns: 320px 200px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.board {
+  border: solid 2px;
+}
+
+.play-button {
+  background-color: #4caf50;
+  font-size: 16px;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+</style>
+<script>
+import { setup } from "../../lib/tetris/tetris";
+setup("board")
+
+</script>
