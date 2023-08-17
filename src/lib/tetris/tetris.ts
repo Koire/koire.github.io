@@ -63,8 +63,8 @@ export const setup = (boardId: string) => {
 	document.addEventListener("keydown", e => {
 		
 		if(e.key === "ArrowLeft") { updateBoard(dirs.left)}
-		if(e.key === "ArrowRight") curPiece.move(dirs.right)
-		if(e.key === "ArrowDown") curPiece.move(dirs.down)
+		if(e.key === "ArrowRight") updateBoard(dirs.right)
+		if(e.key === "ArrowDown") updateBoard(dirs.down)
 		if(e.key === "ArrowUp") curPiece.rotate()
 		if(e.key === " ") {curPiece = generatePiece(getRandomPiece())}
 	})
