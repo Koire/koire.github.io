@@ -3,18 +3,16 @@ import BasePage from "../../layouts/BasePage.astro";
 ---
 
 <BasePage title="Tetris">
-  <audio controls>
-    <source src="/audio/Tetris.ogg" type="audio/ogg"/>
-  </audio>
+  <audio id="gameSong" src="/audio/Tetris.ogg"></audio>
     <div class="container">
-        <canvas id="board" class="board"></canvas>
+        <canvas id="board" class="board" width="300" height="600"></canvas>
         <div class="information">
             <h1>Tetris</h1>
-            <p>Score: <span>0</span></p>
-            <p>Lines: <span>0</span></p>
-            <p>Level: <span>0</span></p>
+            <p>Score: <span id="score">0</span></p>
+            <p>Lines: <span id="lines">0</span></p>
+            <p>Level: <span id="level">0</span></p>
             <canvas id="next" class="next"></canvas>
-            <button onclick="play()" class="play-button">Play</button>
+            <button id="play" class="play-button">Play</button>
         </div>
     </div>
 </BasePage>
@@ -44,5 +42,10 @@ import BasePage from "../../layouts/BasePage.astro";
 </style>
 <script >
     import {setup} from "../../lib/tetris/tetris.ts"
-    setup("board")
+    const playButton = document.getElementById("play")
+    const stop = setup("board")
+    playButton?.addEventListener('click', () => {
+      const audio = document.getElementById('gameSong') as HTMLAudioElement
+      audio.play()
+    })
 </script>
