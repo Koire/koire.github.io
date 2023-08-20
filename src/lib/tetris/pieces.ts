@@ -1,7 +1,4 @@
 
-import { gridSize, rows, columns, dirs } from "./constants.ts"
-
-
 export type pieceType = {
     shape: Array<Array<number>>,
     color: string
@@ -57,6 +54,7 @@ const pieces : piecesType = {
 }
 
 export const choices = Object.keys(pieces)
+const pieceHeight = (piece: tetronimo) => () => piece.shape.length
 export const getRandomPiece = () => choices[Math.floor(Math.random()*choices.length)]
 
 const moveCoords = (piece: tetronimo) => (dir = [1,0]) => {
@@ -64,12 +62,10 @@ const moveCoords = (piece: tetronimo) => (dir = [1,0]) => {
 	piece.curCoords = piece.curCoords.map(([row, col, color]) => [
 		row + dir[0], col + dir[1], color
 	])
-	
 }
 
 const rotate = (piece: tetronimo) => (dir = 1) => {
 	piece.lastCoords = piece.curCoords
-
 	if (dir === -1) {
 		piece.shape = piece.shape.map((val, index) => piece.shape.map(row => row[row.length-1-index]))
 	}
@@ -93,17 +89,15 @@ export type tetronimo = {
 
 export const generatePiece = (style: string) => {
 	const {shape, color} = pieces[style]
-	const coords = shape.flatMap((row, rowNum) => row.map((col, colNum) => {
-		return [ -4 + rowNum, 5 + colNum, col === 1 ? color : "black"]
-	})).toSorted((a, b) => b[0] - a[ 0])
+	const coords = shape.flatMap((row, rowNum) => row.map((col, colNum) => [ -4 + rowNum, 5 + colNum, col === 1 ? color : "black"])).toSorted((a, b) => b[0] - a[0])
 	let piece = {
 		name: style,
 		shape,
 		color,
 		lastCoords: coords,
 		curCoords: coords,
-		move: (dir = [0,0]) => {dir},
-		rotate: (dir = 1) => {dir}
+		move: () => {},
+		rotate: () => {}
 	}
 	piece.move = moveCoords(piece)
 	piece.rotate = rotate(piece)

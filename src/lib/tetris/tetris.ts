@@ -1,4 +1,4 @@
-import { generatePiece, getRandomPiece } from "./pieces.ts"
+import { generatePiece, getRandomPiece,tetronimo } from "./pieces.ts"
 import {columns, rows, gridSize, dirs } from "./constants.ts"
 
 const getContext = (boardId: string) => {
@@ -10,11 +10,23 @@ const getContext = (boardId: string) => {
 
 const generateBoard = (ctx: CanvasRenderingContext2D, rows: number, columns: number, piece) => {
 	const board = Array.from({length: rows}, () => Array(columns).fill("black"))
-	const drawPiece = (piece, clear = false) => {
+	const drawPiece = (piece: tetronimo, clear = false, noMove = false) => {
+		const maxRow = Math.max(...piece.curCoords.map(([row]) => row))
+		console.log("Maxrow", maxRow)
+		if (maxRow >= board.length) return 
 		piece.lastCoords.forEach(([row, col]) => {
 			if (row < 0) return
 			board[row][col] = "black"
 		})
+		if (noMove) {
+			piece.lastCoords.forEach(([row, col, color]) => {
+				if (row < 0) return 
+				if (board[row][col] === "black") {
+					board[row][col] = color
+				}
+			})
+			return
+		}
 		if(!clear){
 			piece.curCoords.forEach(([row, col, color]) => {
 				if (row < 0) return 
@@ -23,6 +35,7 @@ const generateBoard = (ctx: CanvasRenderingContext2D, rows: number, columns: num
 				}
 			})
 		}
+		
 	}
 	return {
 		drawBoard: () => board.forEach((row, rowNum) => {
@@ -42,8 +55,8 @@ const generateBoard = (ctx: CanvasRenderingContext2D, rows: number, columns: num
 				if (row >= 0 && board[row][col] !== "black") return false
 				return true
 			}).includes(false)
-			console.log({noMove})
-			drawPiece(piece, false)
+			
+			drawPiece(piece, false, noMove)
 			return noMove
 		}
 	}
@@ -52,7 +65,7 @@ const generateBoard = (ctx: CanvasRenderingContext2D, rows: number, columns: num
 export const setup = (boardId: string) => {
 	const ctx = getContext(boardId)
 	if(ctx === null) return
-	let gameOver = false
+	let gameOver = 0
 	let currentSpeed = 1000
 
 	ctx.canvas.width = columns * gridSize
@@ -65,19 +78,25 @@ export const setup = (boardId: string) => {
 		if(e.key === "ArrowLeft") { updateBoard(dirs.left)}
 		if(e.key === "ArrowRight") updateBoard(dirs.right)
 		if(e.key === "ArrowDown") updateBoard(dirs.down)
-		if(e.key === "ArrowUp") curPiece.rotate()
+		if(e.key === "ArrowUp") {
+			curPiece.rotate()
+			updateBoard()
+		}
 		if(e.key === " ") {curPiece = generatePiece(getRandomPiece())}
 	})
 	
 	
 	drawBoard()
-	const redraw = () => {
-		console.log("moving down")
-		const gameOver = updateBoard(dirs.down)
-		drawBoard()
-		if (!gameOver) setTimeout(redraw, currentSpeed)
+	const drop = () => {
+		gameOver = updateBoard(dirs.down)
+		if (!gameOver) setTimeout(drop, currentSpeed)
 	}
-	redraw()
+	drop()
+	const loop = () => {
+		drawBoard()
+		if (!gameOver) requestAnimationFrame(loop)
+	}
+	loop()
 	
 }
 
