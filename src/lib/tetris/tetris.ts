@@ -8,7 +8,7 @@ const getContext = (boardId: string) => {
 }
 
 
-const generateBoard = (ctx: CanvasRenderingContext2D, rows: number, columns: number, piece) => {
+const generateBoard = (ctx: CanvasRenderingContext2D, rows: number, columns: number, piece: tetronimo) => {
 	const board = Array.from({length: rows}, () => Array(columns).fill("black"))
 	const drawPiece = (piece: tetronimo, clear = false, noMove = false) => {
 		const maxRow = Math.max(...piece.curCoords.map(([row]) => row))
@@ -65,7 +65,7 @@ const generateBoard = (ctx: CanvasRenderingContext2D, rows: number, columns: num
 export const setup = (boardId: string) => {
 	const ctx = getContext(boardId)
 	if(ctx === null) return
-	let gameOver = 0
+	let gameOver = false
 	let currentSpeed = 1000
 
 	ctx.canvas.width = columns * gridSize

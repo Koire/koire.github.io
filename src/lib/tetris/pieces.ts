@@ -89,7 +89,11 @@ export type tetronimo = {
 
 export const generatePiece = (style: string) => {
 	const {shape, color} = pieces[style]
-	const coords = shape.flatMap((row, rowNum) => row.map((col, colNum) => [ -4 + rowNum, 5 + colNum, col === 1 ? color : "black"])).toSorted((a, b) => b[0] - a[0])
+	const coords = shape.flatMap((row, rowNum) => row.map((col, colNum) => [
+		-4 + rowNum,
+		5 + colNum,
+		col === 1 ? color : "black"
+	])).toSorted((a, b) => b[0] - a[0])
 	let piece = {
 		name: style,
 		shape,

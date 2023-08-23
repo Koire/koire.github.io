@@ -1,0 +1,31 @@
+---
+import BasePage from "../../layouts/BasePage.astro";
+
+---
+
+<BasePage title="Number of Paths">
+    <div>
+        <label>
+            rows: <input id="rows" type="number" value="3"/>
+        </label>
+        <label>
+            cols: <input id="cols" type="number" value="7"/>
+        </label>
+        <button id="start">Draw the Paths</button>
+    </div>
+    <div>
+        <h2>Paths: <span id="pathCount"></span></h2>
+    </div>
+    <div>
+        <canvas id="board" class="board" width="300" height="600"></canvas>
+    </div>
+</BasePage>
+<style>
+    .board {
+        border: solid 2px;
+    }
+</style>
+<script>
+    import {start} from "../../lib/numberOfPaths.ts"
+    start()
+</script>
