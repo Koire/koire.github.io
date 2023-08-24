@@ -4,16 +4,21 @@ import { gridSize } from "./tetris/constants"
 
 
 const generatePaths = (rows: number, cols: number, pathCount: HTMLElement, ctx: CanvasRenderingContext2D) => {
-	function calculatePaths(row: number, col: number) {
-		ctx.fillStyle = "red"
-		ctx.fillRect(col * gridSize, row * gridSize, gridSize - 1, gridSize - 1)
+	function calculatePaths(row: number, col: number, timeout = 10) {
+		setTimeout( () => {
+			ctx.fillStyle = "red"
+			ctx.fillRect(col * gridSize, row * gridSize, gridSize - 1, gridSize - 1)
+		}, timeout * 100)
 		if (row === rows-1 && col === cols-1) {
 			pathCount.textContent = parseInt(pathCount.textContent) + 1
 			return [row, col]
 		}
-		if( row < rows) calculatePaths(row + 1, col)
-		if( col < cols) calculatePaths(row, col + 1)
-		
+		if( row < rows) calculatePaths(row + 1, col, timeout + 1)
+		if( col < cols) calculatePaths(row, col + 1, timeout + 1)
+		setTimeout(() => {
+			ctx.fillStyle = "black"
+			ctx.fillRect(col * gridSize, row * gridSize, gridSize - 1, gridSize - 1)
+		}, (timeout+2) * 100)
 	}
 	return calculatePaths(0,0)
 }
