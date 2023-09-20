@@ -42,4 +42,3 @@ const countVowels = (input) => {
 ```
 
 Yeah I could have set vowels to an array, but, why not? I'm using a `split()` in the actual function. Everything is green, but I'm a little concerned about `toLocaleLowerCase` vs `toLowerCase` MDN says this is only a thing if you are trying to convert a string whose locale does not have typical unicode mappings... so no worries here. I suppose I could modify this for anything, numbers, Japanese characters etc. I wonder if Regexp would work better... less loops I suppose.
-
