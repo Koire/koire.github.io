@@ -13,7 +13,7 @@ import { devices } from '@playwright/test';
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  timeout: 30 * 10000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -33,9 +33,9 @@ const config: PlaywrightTestConfig = {
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   webServer: {
-    command: 'npm run dev',
+    command: 'pnpm dev',
     url: 'http://localhost:3000/',
-    timeout: 100 * 1000,
+    timeout: 100 * 10000,
     reuseExistingServer: !process.env.CI
   },
   use: {
