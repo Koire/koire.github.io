@@ -34,7 +34,7 @@ const config: PlaywrightTestConfig = {
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   webServer: {
     command: 'pnpm dev',
-    url: 'http://localhost:4321/',
+    url: 'http://localhost:3000/',
     timeout: 100 * 10000,
     reuseExistingServer: !process.env.CI
   },
