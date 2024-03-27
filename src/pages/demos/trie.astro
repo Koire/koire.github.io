@@ -1,0 +1,31 @@
+---
+import BasePage from "../../layouts/BasePage.astro";
+---
+
+<BasePage title="Trie">
+	<h1>Trie Test</h1>
+    <label for="insert">
+        <input type="text" id="insert"/>
+    </label>
+    
+	<div id="myPlot"></div>
+</BasePage>
+
+<script>
+import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+import { flare } from "./flare.mts";
+const plot = Plot.plot({
+  axis: null,
+  margin: 10,
+  marginLeft: 40,
+  marginRight: 160,
+  width: 928,
+  height: 1800,
+  marks: [
+    Plot.tree(flare, {path: "name", treeSort: "node:height", delimiter: ".", textStroke: "black"})
+  ]
+})
+const div = document.getElementById("myPlot");
+div.append(plot);
+
+</script>
