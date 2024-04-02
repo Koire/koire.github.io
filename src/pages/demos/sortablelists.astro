@@ -4,9 +4,9 @@ import Content from "../../layouts/Content.astro";
 ---
 <BasePage title="SortableList">
 	<Content header="Ranking List">
-		<form id="addForm">
+		<form id="addForm" >
 			<label for="entry">Add an item:</label>
-			<input type="text" placeholder="new entry" id="newItem">
+			<input type="text" class="text-slate-600 rounded-md text-sm shadow-sm px-3 py-1.5" placeholder="new entry" id="newItem">
 			<button id="addButton" class="rounded-md px-3 py-1.5 text-sm shadow-sm">add</button>
 		</form>
 		<ol id="sortList" class="moveable"></ol>
@@ -112,6 +112,7 @@ const addListItem = (text: string) => {
 	const li = document.createElement("li")
 	li.classList.add("cursor-grab")
 	li.classList.add("active:cursor-grabbing")
+	li.classList.add("active:bg-gray-500")
 	li.appendChild(document.createTextNode(text))
 	li.setAttribute("draggable", "true")
 	li.addEventListener("dragstart", dragStart)
