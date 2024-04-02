@@ -116,6 +116,8 @@ const addListItem = (text: string) => {
 	li.appendChild(document.createTextNode(text))
 	li.setAttribute("draggable", "true")
 	li.addEventListener("dragstart", dragStart)
+	li.addEventListener("touchstart", dragStart)
+	li.addEventListener("touchend", drop)
 	li.addEventListener("drop", drop)
 	li.addEventListener("dragenter", cancelDefault)
 	li.addEventListener("dragover", cancelDefault)
