@@ -1,0 +1,85 @@
+---
+import BasePage from "../../layouts/BasePage.astro";
+---
+<BasePage title="SortableList">
+	<form id="addForm">
+	    <label for="entry">Add an item:</label>
+		<input type="text" placeholder="new entry" id="newItem">
+		<button id="addButton">add</button>
+	</form>
+	<ol id="sortList" class="moveable"></ol>
+	<!-- <div><button>Download List</button></div> -->
+</BasePage>
+<style>
+[draggable="true"] {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+ol.moveable {
+  margin: 0px;
+  padding-left: 20px;
+  list-style-type: decimal;
+
+}
+li {
+    margin: 10px;
+    padding: 4px;
+    border-radius: 4px;
+    color: #666;
+    cursor: move;
+    border: 1px solid grey;
+}
+li:hover {
+    background-color: #eee;
+}
+button {
+    border: 1px solid white;
+    border-radius: 15%;
+    padding: 4px;
+
+}
+</style>
+<script>
+const button = document.getElementById("addButton") as HTMLButtonElement
+const input =  document.getElementById("newItem") as HTMLInputElement
+const form = document.getElementById("addForm") as HTMLFormElement
+const list = document.getElementById("sortList") as HTMLOListElement
+form?.addEventListener("submit", e => {
+    	e.preventDefault()
+})
+const getIndex = e => {
+	const element = e.target.closest("li")
+	return Array.from(list.children).indexOf(element)
+}
+const dragStart = (e) => {
+	e.dataTransfer.setData("text/plain", getIndex(e))
+}
+const drop = (e) => {
+	cancelDefault(e)
+	const oldIndex = e.dataTransfer.getData("text/plain")
+	const newIndex = Array.from(list.children).indexOf(e.target)
+	const node = list.children[oldIndex]
+	list.removeChild(list.children[oldIndex])
+	list.insertBefore(node, list.children[newIndex])
+}
+const cancelDefault = (e) => {
+	e.preventDefault()
+	e.stopPropagation()
+	return false
+}
+button?.addEventListener("click", () => {
+	if (input.value.length === 0 ) return
+    	const li = document.createElement("li")
+    	li.appendChild(document.createTextNode(input.value))
+    	li.setAttribute("draggable", "true")
+    	li.addEventListener("dragstart", dragStart)
+    	li.addEventListener("drop", drop)
+    	li.addEventListener("dragenter", cancelDefault)
+    	li.addEventListener("dragover", cancelDefault)
+    	list.appendChild(li)
+    	input.value = ""
+})
+    
+</script>
