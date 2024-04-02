@@ -7,12 +7,12 @@ import Content from "../../layouts/Content.astro";
 		<form id="addForm">
 			<label for="entry">Add an item:</label>
 			<input type="text" placeholder="new entry" id="newItem">
-			<button id="addButton">add</button>
+			<button id="addButton" class="rounded-md px-3 py-1.5 text-sm shadow-sm">add</button>
 		</form>
 		<ol id="sortList" class="moveable"></ol>
 		<div>
-			<button id="downloadButton" >Download List</button>
-			<button id="clearButton">Clear</button>
+			<button id="downloadButton" class="lex mb-2 w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm" >Download List</button>
+			<button id="clearButton" class="lex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ">Clear</button>
 		</div>
 	</Content>
 </BasePage>
@@ -48,8 +48,6 @@ li:hover {
 }
 button {
     border: 1px solid white;
-    padding: 4px;
-
 }
 </style>
 <script>
@@ -78,6 +76,7 @@ const downloadList = (e) => {
 	element.setAttribute("href", "data:text/plain;charset=utf-8,"+encodeURIComponent(content))
 	element.setAttribute("download", "ranking.txt")
 	element.style.display = "none"
+	
 	document.body.append(element)
 	element.click()
 	document.body.removeChild(element)
@@ -111,6 +110,8 @@ const cancelDefault = (e) => {
 }
 const addListItem = (text: string) => {
 	const li = document.createElement("li")
+	li.classList.add("cursor-grab")
+	li.classList.add("active:cursor-grabbing")
 	li.appendChild(document.createTextNode(text))
 	li.setAttribute("draggable", "true")
 	li.addEventListener("dragstart", dragStart)
