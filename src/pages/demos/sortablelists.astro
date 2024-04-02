@@ -10,7 +10,10 @@ import Content from "../../layouts/Content.astro";
 			<button id="addButton">add</button>
 		</form>
 		<ol id="sortList" class="moveable"></ol>
-		<div><button id="downloadButton" >Download List</button></div>
+		<div>
+			<button id="downloadButton" >Download List</button>
+			<button id="clearButton">Clear</button>
+		</div>
 	</Content>
 </BasePage>
 <style>
@@ -45,7 +48,7 @@ li:hover {
 }
 button {
     border: 1px solid white;
-    padding: 1px 4px;
+    padding: 4px;
 
 }
 </style>
@@ -55,6 +58,20 @@ const input =  document.getElementById("newItem") as HTMLInputElement
 const form = document.getElementById("addForm") as HTMLFormElement
 const list = document.getElementById("sortList") as HTMLOListElement
 const downloadButton = document.getElementById("downloadButton") as HTMLButtonElement
+const clearButton = document.getElementById("clearButton") as HTMLButtonElement
+
+const saveToStorage  = () => {
+	const items = Array.from(list.children).map(ele => ele.textContent)
+	localStorage.setItem("rankingList", JSON.stringify(items))
+}
+const loadFromStorage = () => {
+	const list = JSON.parse(localStorage.getItem("rankingList"))
+	if (list) {
+		list.forEach((element: string) => {
+			addListItem(element)
+		})
+	}
+}
 const downloadList = (e) => {
 	const content = Array.from(list.children).map((ele, idx) => `${idx+1}. ${ele.textContent}`).join("\n")
 	const element = document.createElement("a")
@@ -69,7 +86,7 @@ const downloadList = (e) => {
 downloadButton.addEventListener("click", downloadList)
 
 form?.addEventListener("submit", e => {
-    	e.preventDefault()
+   	e.preventDefault()
 })
 const getIndex = e => {
 	const element = e.target.closest("li")
@@ -85,23 +102,32 @@ const drop = (e) => {
 	const node = list.children[oldIndex]
 	list.removeChild(list.children[oldIndex])
 	list.insertBefore(node, list.children[newIndex])
+	saveToStorage()
 }
 const cancelDefault = (e) => {
 	e.preventDefault()
 	e.stopPropagation()
 	return false
 }
+const addListItem = (text: string) => {
+	const li = document.createElement("li")
+	li.appendChild(document.createTextNode(text))
+	li.setAttribute("draggable", "true")
+	li.addEventListener("dragstart", dragStart)
+	li.addEventListener("drop", drop)
+	li.addEventListener("dragenter", cancelDefault)
+	li.addEventListener("dragover", cancelDefault)
+	list.appendChild(li)
+	saveToStorage()
+}
 button?.addEventListener("click", () => {
 	if (input.value.length === 0 ) return
-    	const li = document.createElement("li")
-    	li.appendChild(document.createTextNode(input.value))
-    	li.setAttribute("draggable", "true")
-    	li.addEventListener("dragstart", dragStart)
-    	li.addEventListener("drop", drop)
-    	li.addEventListener("dragenter", cancelDefault)
-    	li.addEventListener("dragover", cancelDefault)
-    	list.appendChild(li)
-    	input.value = ""
+	addListItem(input.value)
+	input.value = ""
 })
-    
+clearButton.addEventListener("click", () => {
+	list.innerHTML = ""
+	saveToStorage()
+})
+loadFromStorage()
 </script>
