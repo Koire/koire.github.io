@@ -1,14 +1,17 @@
 ---
-import BasePage from "../../layouts/BasePage.astro";
+import BasePage from "../../layouts/BasePage.astro"
+import Content from "../../layouts/Content.astro";
 ---
 <BasePage title="SortableList">
-	<form id="addForm">
-	    <label for="entry">Add an item:</label>
-		<input type="text" placeholder="new entry" id="newItem">
-		<button id="addButton">add</button>
-	</form>
-	<ol id="sortList" class="moveable"></ol>
-	<!-- <div><button>Download List</button></div> -->
+	<Content header="Ranking List">
+		<form id="addForm">
+			<label for="entry">Add an item:</label>
+			<input type="text" placeholder="new entry" id="newItem">
+			<button id="addButton">add</button>
+		</form>
+		<ol id="sortList" class="moveable"></ol>
+		<div><button id="downloadButton" >Download List</button></div>
+	</Content>
 </BasePage>
 <style>
 [draggable="true"] {
@@ -21,7 +24,8 @@ ol.moveable {
   margin: 0px;
   padding-left: 20px;
   list-style-type: decimal;
-
+  padding-bottom: 20px;
+  border-bottom: 1px solid grey;
 }
 li {
     margin: 10px;
@@ -40,8 +44,7 @@ li:hover {
 }
 button {
     border: 1px solid white;
-    border-radius: 15%;
-    padding: 4px;
+    padding: 1px 4px;
 
 }
 </style>
@@ -50,6 +53,20 @@ const button = document.getElementById("addButton") as HTMLButtonElement
 const input =  document.getElementById("newItem") as HTMLInputElement
 const form = document.getElementById("addForm") as HTMLFormElement
 const list = document.getElementById("sortList") as HTMLOListElement
+const downloadButton = document.getElementById("downloadButton") as HTMLButtonElement
+const downloadList = (e) => {
+	const content = Array.from(list.children).map((ele, idx) => `${idx+1}. ${ele.textContent}`).join("\n")
+	const element = document.createElement("a")
+	element.setAttribute("href", "data:text/plain;charset=utf-8,"+encodeURIComponent(content))
+	element.setAttribute("download", "ranking.txt")
+	element.style.display = "none"
+	document.body.append(element)
+	element.click()
+	document.body.removeChild(element)
+
+}
+downloadButton.addEventListener("click", downloadList)
+
 form?.addEventListener("submit", e => {
     	e.preventDefault()
 })

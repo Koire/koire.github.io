@@ -1,20 +1,22 @@
 ---
 import BasePage from "../../layouts/BasePage.astro";
-
+import Content from "../../layouts/Content.astro";
 ---
 
 <BasePage title="Number of Paths">
-	<div>
-		<label>rows: <input id="rows" type="number" value="3"/></label>
-		<label>cols: <input id="cols" type="number" value="7"/></label>0
-		<button id="start" class="button">Draw the Paths</button>
-	</div>
-	<div>
-		<h2>Paths: <span id="pathCount"></span></h2>
-	</div>
-	<div>
-		<canvas id="board" class="board" width="300" height="600"></canvas>
-	</div>
+	<Content header="Ranking Lists">
+		<div>
+			<label>rows: <input id="rows" type="number" value="3"/></label>
+			<label>cols: <input id="cols" type="number" value="7"/></label>0
+			<button id="start" class="button">Draw the Paths</button>
+		</div>
+		<div>
+			<h2>Paths: <span id="pathCount"></span></h2>
+		</div>
+		<div>
+			<canvas id="board" class="board" width="300" height="600"></canvas>
+		</div>
+	</Content>
 </BasePage>
 <style>
     .board {
