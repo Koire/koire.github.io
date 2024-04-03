@@ -108,6 +108,27 @@ const cancelDefault = (e) => {
 	e.stopPropagation()
 	return false
 }
+const touchStart = (element) => (e) => {
+}
+
+const touchEnd = (element) => (e) => {
+	const index = Array.from(list.children).indexOf(element)
+	const targetCoords = e.changedTouches
+	if (targetCoords) {
+		const ele = document.elementFromPoint(
+			targetCoords[0].clientX,
+			targetCoords[0].clientY
+		)
+		drop({
+			target: ele,
+			dataTransfer: {
+				getData: () => index
+			},
+			preventDefault: () => {},
+			stopPropagation: () => {}
+		})
+	}
+}
 const addListItem = (text: string) => {
 	const li = document.createElement("li")
 	li.classList.add("cursor-grab")
@@ -116,8 +137,8 @@ const addListItem = (text: string) => {
 	li.appendChild(document.createTextNode(text))
 	li.setAttribute("draggable", "true")
 	li.addEventListener("dragstart", dragStart)
-	li.addEventListener("touchstart", dragStart)
-	li.addEventListener("touchend", drop)
+	li.addEventListener("touchstart", touchStart(li))
+	li.addEventListener("touchend", touchEnd(li))
 	li.addEventListener("drop", drop)
 	li.addEventListener("dragenter", cancelDefault)
 	li.addEventListener("dragover", cancelDefault)
