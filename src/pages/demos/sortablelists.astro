@@ -63,7 +63,7 @@ const saveToStorage  = () => {
 	localStorage.setItem("rankingList", JSON.stringify(items))
 }
 const loadFromStorage = () => {
-	const list = JSON.parse(localStorage.getItem("rankingList"))
+	const list = JSON.parse(localStorage.getItem("rankingList") || "")
 	if (list) {
 		list.forEach((element: string) => {
 			addListItem(element)
@@ -76,7 +76,6 @@ const downloadList = (e) => {
 	element.setAttribute("href", "data:text/plain;charset=utf-8,"+encodeURIComponent(content))
 	element.setAttribute("download", "ranking.txt")
 	element.style.display = "none"
-	
 	document.body.append(element)
 	element.click()
 	document.body.removeChild(element)
@@ -109,9 +108,13 @@ const cancelDefault = (e) => {
 	return false
 }
 const touchStart = (element) => (e) => {
+	cancelDefault(e)
+	const index = Array.from(list.children).indexOf(element)
+    
 }
 
 const touchEnd = (element) => (e) => {
+	cancelDefault(e)
 	const index = Array.from(list.children).indexOf(element)
 	const targetCoords = e.changedTouches
 	if (targetCoords) {
