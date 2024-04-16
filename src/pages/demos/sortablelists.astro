@@ -1,6 +1,9 @@
 ---
+
 import BasePage from "../../layouts/BasePage.astro"
-import Content from "../../layouts/Content.astro";
+import Content from "../../layouts/Content.astro"
+import trashCan from "../../assets/images/trashcan.svg"
+import editPencil from "../../assets/images/edit-pencil.svg"
 ---
 <BasePage title="SortableList">
 	<Content header="Ranking List">
@@ -9,19 +12,28 @@ import Content from "../../layouts/Content.astro";
 			<input type="text" class="text-slate-600 rounded-md text-sm shadow-sm px-3 py-1.5 mb-2" placeholder="new entry" id="newItem">
 			<button id="addButton" class="rounded-md px-3 py-1.5 text-sm shadow-sm">add</button>
 		</form>
-		<ol id="sortList" class="moveable"></ol>
+		<ol id="sortList" class="moveable grid"></ol>
 		<div>
 			<button id="downloadButton" class="lex mb-2 w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm" >Download List</button>
 			<button id="clearButton" class="lex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ">Clear</button>
 		</div>
+		<img src={trashCan.src} id="trashcan" class="invisible editItem" alt="trashcan" height="25" width="25"/>
+		<img src={editPencil.src} id="editPencil" class="invisible editItem" alt="editIcon" height="25" width="25"/>
+		<div class="optionEntry invisible"></div>
 	</Content>
 </BasePage>
-<style>
+<style is:inline>
+.editItem {
+	cursor:pointer;
+}
 [draggable="true"] {
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+ol {
+  counter-reset: entryCount; /* Set a counter named 'li', and its initial value is 0. */
 }
 ol.moveable {
   margin: 0px;
@@ -35,16 +47,26 @@ li {
     margin: 10px;
     padding: 4px;
     border-radius: 4px;
-    color: #666;
     cursor: move;
     cursor: grab;
-    border: 1px solid grey;
+	position: relative;
 }
-li:active: {
+li:active {
     cursor: grabbing;
 }
 li:hover {
-    background-color: #eee;
+    background-color: grey;
+}
+li:before {
+	counter-increment: entryCount;
+	content: counter(entryCount) ". ";
+	position: absolute;
+	left: -15px;
+	top: 5px;
+}
+.optionEntry {
+	display: grid;
+	grid-template-columns: 20% 25px 25px;
 }
 button {
     border: 1px solid white;
@@ -56,8 +78,9 @@ const input =  document.getElementById("newItem") as HTMLInputElement
 const form = document.getElementById("addForm") as HTMLFormElement
 const list = document.getElementById("sortList") as HTMLOListElement
 const downloadButton = document.getElementById("downloadButton") as HTMLButtonElement
-const clearButton = document.getElementById("clearButton") as HTMLButtonElement
-
+const clearButton = document.getElementById("clearButton") as HTMLButtonElement 
+const editPencil = document.getElementById("editPencil") as HTMLImageElement
+const trashCan = document.getElementById("trashcan") as HTMLImageElement
 const saveToStorage  = () => {
 	const items = Array.from(list.children).map(ele => ele.textContent)
 	localStorage.setItem("rankingList", JSON.stringify(items))
@@ -96,7 +119,8 @@ const dragStart = (e) => {
 const drop = (e) => {
 	cancelDefault(e)
 	const oldIndex = e.dataTransfer.getData("text/plain")
-	const newIndex = Array.from(list.children).indexOf(e.target)
+	const target = ["SPAN", "IMG"].includes(e.target.tagName) ? e.target.parentElement : e.target
+	const newIndex = Array.from(list.children).indexOf(target)
 	const node = list.children[oldIndex]
 	list.removeChild(list.children[oldIndex])
 	list.insertBefore(node, list.children[newIndex])
@@ -132,12 +156,41 @@ const touchEnd = (element) => (e) => {
 		})
 	}
 }
+
+const createIcons = (text: string ) => {
+	const edit = editPencil.cloneNode(true) as HTMLImageElement
+	const trash = trashCan.cloneNode(true) as HTMLImageElement
+	edit.setAttribute("id", `${text}-edit`)
+	edit.classList.remove("invisible")
+	edit.addEventListener("click", () => {
+		if (!edit.parentElement) return
+		const setText = edit.parentElement.getElementsByTagName("span")[0]
+		if (!setText) return 
+		const changedValue = prompt("Change the Entry", setText.innerText)
+		if (changedValue && changedValue !== setText.innerText && changedValue.length > 0) {
+			setText.innerText = changedValue
+		}
+	})
+	trash.setAttribute("id", `${text}-trash`)
+	trash.classList.remove("invisible")
+	trash.addEventListener("click", () => list.removeChild(trash.parentElement))
+	return [edit,trash]
+}
+
 const addListItem = (text: string) => {
 	const li = document.createElement("li")
-	li.classList.add("cursor-grab")
-	li.classList.add("active:cursor-grabbing")
-	li.classList.add("active:bg-gray-500")
-	li.appendChild(document.createTextNode(text))
+	const [edit, trash] = createIcons(text)
+	const textContent = document.createElement("span") as HTMLSpanElement
+	textContent.addEventListener("drop", (e) => {
+		e.preventDefault()
+		return false
+	})
+	textContent.appendChild(document.createTextNode(text))
+	li.appendChild(textContent)
+	li.classList.add("optionEntry")
+	li.appendChild(edit)
+	li.appendChild(trash)
+	li.classList.add("cursor-grab", "active:cursor-grabbing", "active:bg-gray-500")
 	li.setAttribute("draggable", "true")
 	li.addEventListener("dragstart", dragStart)
 	li.addEventListener("touchstart", touchStart(li))
