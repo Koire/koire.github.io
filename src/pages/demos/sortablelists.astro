@@ -4,18 +4,21 @@ import BasePage from "../../layouts/BasePage.astro"
 import Content from "../../layouts/Content.astro"
 import trashCan from "../../assets/images/trashcan.svg"
 import editPencil from "../../assets/images/edit-pencil.svg"
+
 ---
 <BasePage title="SortableList">
 	<Content header="Ranking List">
-		<form id="addForm" class="mb-2" >
-			<label for="entry">Add an item:</label>
-			<input type="text" class="text-slate-600 rounded-md text-sm shadow-sm px-3 py-1.5 mb-2" placeholder="new entry" id="newItem">
-			<button id="addButton" class="rounded-md px-3 py-1.5 text-sm shadow-sm">add</button>
-		</form>
-		<ol id="sortList" class="moveable grid"></ol>
-		<div>
-			<button id="downloadButton" class="lex mb-2 w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm" >Download List</button>
-			<button id="clearButton" class="lex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ">Clear</button>
+		<div class="listContainer">
+			<form id="addForm" class="mb-2" >
+				<label for="entry">Add an item:</label>
+				<input type="text" class="text-slate-600 rounded-md text-sm shadow-sm px-3 py-1.5 mb-2" placeholder="new entry" id="newItem">
+				<button id="addButton" class="rounded-md px-3 py-1.5 text-sm shadow-sm">add</button>
+			</form>
+			<ol id="sortList" class="moveable grid"></ol>
+			<div>
+				<button id="downloadButton" class="lex mb-2 w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm" >Download List</button>
+				<button id="clearButton" class="lex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ">Clear</button>
+			</div>
 		</div>
 		<img src={trashCan.src} id="trashcan" class="invisible editItem" alt="trashcan" height="25" width="25"/>
 		<img src={editPencil.src} id="editPencil" class="invisible editItem" alt="editIcon" height="25" width="25"/>
@@ -23,6 +26,11 @@ import editPencil from "../../assets/images/edit-pencil.svg"
 	</Content>
 </BasePage>
 <style is:inline>
+.listContainer {
+	justify-content: center;
+	display: grid;
+	
+}
 .editItem {
 	cursor:pointer;
 }
@@ -33,7 +41,8 @@ import editPencil from "../../assets/images/edit-pencil.svg"
   -ms-user-select: none;
 }
 ol {
-  counter-reset: entryCount; /* Set a counter named 'li', and its initial value is 0. */
+  counter-reset: entryCount; /* Set a counter for list items */
+  width: 50vw;
 }
 ol.moveable {
   margin: 0px;
@@ -44,7 +53,6 @@ ol.moveable {
   border-bottom: 1px solid grey;
 }
 li {
-    margin: 10px;
     padding: 4px;
     border-radius: 4px;
     cursor: move;
@@ -63,10 +71,13 @@ li:before {
 	position: absolute;
 	left: -15px;
 	top: 5px;
+	height: 100%;
+	
 }
 .optionEntry {
 	display: grid;
-	grid-template-columns: 20% 25px 25px;
+	grid-template-columns: auto 25px 25px;
+	gap: 7px;
 }
 button {
     border: 1px solid white;
@@ -107,7 +118,7 @@ const downloadList = (e) => {
 downloadButton.addEventListener("click", downloadList)
 
 form?.addEventListener("submit", e => {
-   	e.preventDefault()
+	e.preventDefault()
 })
 const getIndex = e => {
 	const element = e.target.closest("li")
