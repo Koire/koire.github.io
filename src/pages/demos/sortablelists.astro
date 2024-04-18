@@ -143,8 +143,8 @@ const cancelDefault = (e) => {
 	return false
 }
 const touchStart = (element) => (e) => {
-	cancelDefault(e)
-	const index = Array.from(list.children).indexOf(element)
+	// cancelDefault(e)
+	// const index = Array.from(list.children).indexOf(element)
     
 }
 
@@ -152,7 +152,8 @@ const touchEnd = (element) => (e) => {
 	cancelDefault(e)
 	const index = Array.from(list.children).indexOf(element)
 	const targetCoords = e.changedTouches
-	if (targetCoords) {
+	if (targetCoords && index >= 0) {
+		
 		const ele = document.elementFromPoint(
 			targetCoords[0].clientX,
 			targetCoords[0].clientY
@@ -173,7 +174,7 @@ const createIcons = (text: string ) => {
 	const trash = trashCan.cloneNode(true) as HTMLImageElement
 	edit.setAttribute("id", `${text}-edit`)
 	edit.classList.remove("invisible")
-	edit.addEventListener("click", () => {
+	const editFn = () => {
 		if (!edit.parentElement) return
 		const setText = edit.parentElement.getElementsByTagName("span")[0]
 		if (!setText) return 
@@ -181,10 +182,20 @@ const createIcons = (text: string ) => {
 		if (changedValue && changedValue !== setText.innerText && changedValue.length > 0) {
 			setText.innerText = changedValue
 		}
-	})
+		saveToStorage()
+	}
+	edit.addEventListener("click", editFn)
+	edit.addEventListener("touchstart", editFn)
 	trash.setAttribute("id", `${text}-trash`)
 	trash.classList.remove("invisible")
-	trash.addEventListener("click", () => list.removeChild(trash.parentElement))
+	const trashFn = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
+		list.removeChild(trash.parentElement)
+		saveToStorage()
+	}
+	trash.addEventListener("click", trashFn)
+	trash.addEventListener("touchstart", trashFn)	
 	return [edit,trash]
 }
 
